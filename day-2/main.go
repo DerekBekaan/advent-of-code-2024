@@ -11,6 +11,7 @@ func main() {
 	input, _ := os.ReadFile("input.txt")
 
 	fmt.Printf("Part One: %d\n", partOne(string(input)))
+	fmt.Printf("Part Two: %d\n", partTwo(string(input)))
 }
 
 func partOne(input string) int {
@@ -50,4 +51,59 @@ func partOne(input string) int {
 	}
 
 	return safeCount
+}
+
+func partTwo(input string) int {
+	input = strings.ReplaceAll(input, "\r", "")
+	lines := strings.Split(input, "\n")
+
+	safeCount := 0
+	for _, line := range lines {
+		readings := strings.Split(line, " ")
+		readingsInts := make([]int, 0, len(readings))
+
+		for _, reading := range readings {
+			readingInt, _ := strconv.Atoi(reading)
+			readingsInts = append(readingsInts, readingInt)
+		}
+
+		if validReadings(readingsInts, len(readingsInts)) {
+			safeCount += 1
+		} else {
+			
+			for i := 0; i < len(readingsInts); i++ {
+				r := make([]int, 0, len(readingsInts) - 1)
+				
+				for j := 0; j < len(readingsInts); j++ {
+					if i != j {
+						r = append(r, readingsInts[j])
+					}
+				}
+				
+				if validReadings(r, len(r)) {
+					safeCount += 1
+					break
+				}
+			}
+		}
+	}
+
+	return safeCount
+}
+
+func validReadings(readings []int, size int) bool {
+	ascends := 0
+	descends := 0
+
+	for i := 0; i < size - 1; i++ {
+		diff := readings[i] - readings[i + 1]
+
+		if diff > 0 && diff <= 3 {
+			descends += 1
+		} else if diff < 0 && diff >= -3 {
+			ascends += 1
+		}
+	}
+
+	return ascends == len(readings) - 1 || descends == len(readings) - 1 
 }
