@@ -16,13 +16,13 @@ func main() {
 }
 
 func partOne(input string) int {
-	re := regexp.MustCompile(`mul\([0-9]+,[0-9]+\)`)
-	muls := re.FindAllString(input, -1)
+	re := regexp.MustCompile(`mul\((?P<x>[0-9]+),(?P<y>[0-9]+)\)`)
+	muls := re.FindAllStringSubmatch(input, -1)
 	
 	sum := 0
-	for _, mul := range muls {
-		x, _ := strconv.Atoi(mul[strings.Index(mul, "(") + 1: strings.Index(mul, ",")])
-		y, _ := strconv.Atoi(mul[strings.Index(mul, ",") + 1: strings.Index(mul, ")")])
+	for _, m := range muls {
+		x, _ := strconv.Atoi(m[1])
+		y, _ := strconv.Atoi(m[2])
 
 		sum += x * y
 	}
