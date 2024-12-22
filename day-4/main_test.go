@@ -21,3 +21,23 @@ MXMXAXMASX`
 		t.Errorf("Expected %v, got %v", expected, actual)
 	}
 }
+
+func TestPartTwo(t *testing.T) {
+	input := `MMMSXXMASM
+MSAMXMSMSA
+AMXSXMAAMM
+MSAMASMSMX
+XMASAMXAMM
+XXAMMXXAMA
+SMSMSASXSS
+SAXAMASAAA
+MAMMMXMMMM
+MXMXAXMASX`
+	expected := 9
+
+	actual := partTwo(input)
+
+	if actual != expected {
+		t.Errorf("Expected %v, got %v", expected, actual)
+	}
+}
